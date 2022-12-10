@@ -13,6 +13,9 @@ public class Doctor {
     private Date startedWork;
     private Department department;
 
+    public Doctor(){
+
+    }
     public Doctor(int id, String name, Date startedWork, Department department) {
         this.id = id;
         this.name = name;
