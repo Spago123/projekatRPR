@@ -1,4 +1,4 @@
-package ba.unsa.etf.rpr.Gave;
+package ba.unsa.etf.rpr.dao;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import java.util.List;
  * Gave interface represents the main interface for working with the database
  */
 
-public interface Gave<Type> {
+public interface Dao<Type> {
     /**
      * Get from database by Id
      * @param id primary key for entity
