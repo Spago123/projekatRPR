@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentDaoSQLImpl implements DepartmentDao{
-
     private Connection connection;
-
-    DepartmentDaoSQLImpl(){
+    public DepartmentDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("jaijaois","jaiojaio","djaidjao");
+            this.connection = DriverManager.getConnection("","","");
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -38,7 +36,6 @@ public class DepartmentDaoSQLImpl implements DepartmentDao{
         }
         return null;
     }
-
     @Override
     public Department add(Department item) {
         String insert = "INSERT INTO Departments(name) VALUES(?)";

@@ -22,6 +22,10 @@ public class Patient {
         this.doctor = doctor;
     }
 
+    public Patient() {
+
+    }
+
     public int getId() {
         return id;
     }

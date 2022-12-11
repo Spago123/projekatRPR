@@ -22,6 +22,10 @@ public class History {
         this.date = date;
     }
 
+    public History() {
+
+    }
+
     public int getId() {
         return id;
     }

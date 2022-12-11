@@ -101,7 +101,7 @@ public class DoctorDaoSQLImpl implements DoctorDao{
 
     @Override
     public List<Doctor> getAll() {
-        List<Doctor> list = new ArrayList<Doctor>();
+        List<Doctor> doctors = new ArrayList<Doctor>();
         try{
             PreparedStatement stmt = this.connection.prepareStatement("SELECT * from Doctors");
             ResultSet rs = stmt.executeQuery();
@@ -111,16 +111,35 @@ public class DoctorDaoSQLImpl implements DoctorDao{
                 doctor.setName(rs.getString("name"));
                 doctor.setStartedWork(rs.getDate("startedWork"));
                 doctor.setDepartment(new DepartmentDaoSQLImpl().getById(rs.getInt("idDepartment")));
+                doctors.add(doctor);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return doctors;
     }
 
     ////OSTALO TI JE OVO OVDJE
     @Override
     public List<Doctor> searchByDepartment(Department department) {
-        return null;
+        List<Doctor> doctors = new ArrayList<>();
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Doctors WHERE idDepartment = ?");
+            stmt.setInt(1, department.getId());
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Doctor doctor = new Doctor();
+                doctor.setId(rs.getInt("id"));
+                doctor.setName(rs.getString("name"));
+                doctor.setStartedWork(rs.getDate("startedWork"));
+                doctor.setDepartment(department);
+                doctors.add(doctor);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return doctors;
     }
 }
