@@ -12,14 +12,12 @@ public class History {
     private Patient patient;
     private Doctor doctor;
     private String diagnosis;
-    private Date date;
 
-    public History(int id, Patient patient, Doctor doctor, String diagnosis, Date date) {
+    public History(int id, Patient patient, Doctor doctor, String diagnosis) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;
         this.diagnosis = diagnosis;
-        this.date = date;
     }
 
     public History() {
@@ -58,14 +56,6 @@ public class History {
         this.diagnosis = diagnosis;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     @Override
     public String toString() {
         return "History{" +
@@ -73,7 +63,6 @@ public class History {
                 ", patient=" + patient +
                 ", doctor=" + doctor +
                 ", diagnosis='" + diagnosis + '\'' +
-                ", date=" + date +
                 '}';
     }
 
@@ -86,11 +75,11 @@ public class History {
             return false;
         }
         History history = (History) o;
-        return id == history.id && patient.equals(history.patient) && doctor.equals(history.doctor) && diagnosis.equals(history.diagnosis) && date.equals(history.date);
+        return id == history.id && patient.equals(history.patient) && doctor.equals(history.doctor) && diagnosis.equals(history.diagnosis);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, patient, doctor, diagnosis, date);
+        return Objects.hash(id, patient, doctor, diagnosis);
     }
 }

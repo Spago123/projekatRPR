@@ -1,6 +1,6 @@
 package ba.unsa.etf.rpr.domain;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
 
 /**
@@ -10,16 +10,14 @@ import java.util.Objects;
 public class Doctor {
     private int id;
     private String name;
-    private Date startedWork;
     private Department department;
 
     public Doctor(){
 
     }
-    public Doctor(int id, String name, Date startedWork, Department department) {
+    public Doctor(int id, String name, Department department) {
         this.id = id;
         this.name = name;
-        this.startedWork = startedWork;
         this.department = department;
     }
 
@@ -39,14 +37,6 @@ public class Doctor {
         this.name = name;
     }
 
-    public Date getStartedWork() {
-        return startedWork;
-    }
-
-    public void setStartedWork(Date startedWork) {
-        this.startedWork = startedWork;
-    }
-
     public Department getDepartment() {
         return department;
     }
@@ -60,7 +50,6 @@ public class Doctor {
         return "Doctor{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", startedWork=" + startedWork +
                 ", department=" + department +
                 '}';
     }
@@ -74,11 +63,11 @@ public class Doctor {
             return false;
         }
         Doctor doctor = (Doctor) o;
-        return id == doctor.id && name.equals(doctor.name) && Objects.equals(startedWork, doctor.startedWork) && department.equals(doctor.department);
+        return id == doctor.id && name.equals(doctor.name)  && department.equals(doctor.department);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, startedWork, department);
+        return Objects.hash(id, name, department);
     }
 }

@@ -15,7 +15,7 @@ public class HistoryDaoSQLImpl implements HistoryDao{
 
     public HistoryDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("","","");
+            this.connection = DriverManager.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -32,7 +32,6 @@ public class HistoryDaoSQLImpl implements HistoryDao{
                 history.setPatient(new PatientDaoSQLImpl().getById(rs.getInt("idPatient")));
                 history.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
                 history.setDiagnosis(rs.getString("diagnosis"));
-                history.setDate(rs.getDate("date"));
                 rs.close();
                 return history;
             }else{
@@ -46,19 +45,30 @@ public class HistoryDaoSQLImpl implements HistoryDao{
 
     @Override
     public History add(History item) {
-
+        try{
+            PreparedStatement stmt = this.connection.prepareStatement( "INSERT INTO Histories(idDoctor, idPatient, diagnosis) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, item.getDoctor().getId());
+            stmt.setInt(2, item.getPatient().getId());
+            stmt.setString(3, item.getDiagnosis());
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            item.setId(rs.getInt(1));
+            return item;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public History update(History item) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Histories SET idPatient=?, idDoctor=?, diagnosis=?, date=? WHERE id=?");
+            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Histories SET idPatient=?, idDoctor=?, diagnosis=? WHERE id=?");
             stmt.setInt(5,item.getId());
             stmt.setInt(1, item.getPatient().getId());
             stmt.setInt(2, item.getDoctor().getId());
             stmt.setString(3, item.getDiagnosis());
-            stmt.setDate(4, (Date) item.getDate());
             stmt.executeUpdate();
             return item;
         } catch (SQLException e) {
@@ -90,7 +100,6 @@ public class HistoryDaoSQLImpl implements HistoryDao{
                 history.setPatient(new PatientDaoSQLImpl().getById(rs.getInt("idPatient")));
                 history.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
                 history.setDiagnosis(rs.getString("diagnosis"));
-                history.setDate(rs.getDate("date"));
                 histories.add(history);
             }
             rs.close();
@@ -113,7 +122,6 @@ public class HistoryDaoSQLImpl implements HistoryDao{
                 history.setId(rs.getInt("id"));
                 history.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
                 history.setDiagnosis(rs.getString("diagnosis"));
-                history.setDate(rs.getDate("date"));
                 histories.add(history);
             }
             rs.close();
@@ -136,7 +144,6 @@ public class HistoryDaoSQLImpl implements HistoryDao{
                 history.setId(rs.getInt("id"));
                 history.setPatient(new PatientDaoSQLImpl().getById(rs.getInt("idPatient")));
                 history.setDiagnosis(rs.getString("diagnosis"));
-                history.setDate(rs.getDate("date"));
                 histories.add(history);
             }
             rs.close();
@@ -160,7 +167,6 @@ public class HistoryDaoSQLImpl implements HistoryDao{
                 history.setDoctor(doctor);
                 history.setId(rs.getInt("id"));
                 history.setDiagnosis(rs.getString("diagnosis"));
-                history.setDate(rs.getDate("date"));
                 histories.add(history);
             }
             rs.close();

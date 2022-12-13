@@ -13,7 +13,7 @@ public class PatientDaoSQLImpl implements PatientDao {
 
     public PatientDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("","","");
+            this.connection = DriverManager.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -28,7 +28,6 @@ public class PatientDaoSQLImpl implements PatientDao {
                 Patient patient = new Patient();
                 patient.setId(rs.getInt("id"));
                 patient.setName(rs.getNString("name"));
-                patient.setDateOfBirth(rs.getDate("startedWork"));
                 patient.setUIN(rs.getInt("UIN"));
                 patient.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
                 rs.close();
@@ -42,30 +41,17 @@ public class PatientDaoSQLImpl implements PatientDao {
         return null;
     }
 
-    private int getMaxId(){
-        int id=1;
-        try {
-            PreparedStatement statement = this.connection.prepareStatement("SELECT MAX(id)+1 FROM Patients");
-            ResultSet rs = statement.executeQuery();
-            if(rs.next()) {
-                id = rs.getInt(1);
-                rs.close();
-                return id;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
-    }
-
-
     @Override
     public Patient add(Patient item) {
-        int id = getMaxId();
         try{
-            PreparedStatement stmt =  this.connection.prepareStatement("INSERT INTO Patients VALUES (id, item.getName(), item.getDateOfBirth(), item.getUIN(), item.getDoctor().getId())");
+            PreparedStatement stmt = this.connection.prepareStatement( "INSERT INTO Patients(name, UIN, idDoctor) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, item.getName());
+            stmt.setInt(2, (int)item.getUIN());
+            stmt.setInt(3, item.getDoctor().getId());
             stmt.executeUpdate();
-            item.setId(id);
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            item.setId(rs.getInt(1));
             return item;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,12 +62,11 @@ public class PatientDaoSQLImpl implements PatientDao {
     @Override
     public Patient update(Patient item) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Patients SET name=?, dateOfBirth=?, UIN=?, idDoctors=? WHERE id=?");
-            stmt.setInt(5,item.getId());
+            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Patients SET name=?, UIN=?, idDoctors=? WHERE id=?");
+            stmt.setInt(4,item.getId());
             stmt.setString(1, item.getName());
-            stmt.setDate(2, (Date)item.getDateOfBirth());
-            stmt.setInt(3, (int)item.getUIN());
-            stmt.setInt(4, item.getDoctor().getId());
+            stmt.setInt(2, (int)item.getUIN());
+            stmt.setInt(3, item.getDoctor().getId());
             stmt.executeUpdate();
             return item;
         } catch (SQLException e) {
@@ -111,7 +96,6 @@ public class PatientDaoSQLImpl implements PatientDao {
                 Patient patient = new Patient();
                 patient.setId(rs.getInt("id"));
                 patient.setName(rs.getString("name"));
-                patient.setDateOfBirth(rs.getDate("dateOfBirth"));
                 patient.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
                 patients.add(patient);
             }
@@ -134,7 +118,6 @@ public class PatientDaoSQLImpl implements PatientDao {
                 Patient patient = new Patient();
                 patient.setId(rs.getInt("id"));
                 patient.setName(rs.getString("name"));
-                patient.setDateOfBirth(rs.getDate("dateOfBirth"));
                 patient.setUIN(rs.getInt("UIN"));
                 patient.setDoctor(doctor);
                 patients.add(patient);

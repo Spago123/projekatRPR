@@ -10,14 +10,12 @@ import java.util.Objects;
 public class Patient {
     private int id;
     private String name;
-    private Date dateOfBirth;
     private long UIN;
     private Doctor doctor;
 
-    public Patient(int id, String name, Date dateOfBirth, long UIN, Doctor doctor) {
+    public Patient(int id, String name, long UIN, Doctor doctor) {
         this.id = id;
         this.name = name;
-        this.dateOfBirth = dateOfBirth;
         this.UIN = UIN;
         this.doctor = doctor;
     }
@@ -42,14 +40,6 @@ public class Patient {
         this.name = name;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public long getUIN() {
         return UIN;
     }
@@ -71,7 +61,6 @@ public class Patient {
         return "Patient{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
                 ", UIN=" + UIN +
                 ", doctor=" + doctor +
                 '}';
@@ -86,11 +75,11 @@ public class Patient {
             return false;
         }
         Patient patient = (Patient) o;
-        return id == patient.id && UIN == patient.UIN && Objects.equals(name, patient.name) && Objects.equals(dateOfBirth, patient.dateOfBirth) && Objects.equals(doctor, patient.doctor);
+        return id == patient.id && UIN == patient.UIN && Objects.equals(name, patient.name) && Objects.equals(doctor, patient.doctor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, dateOfBirth, UIN, doctor);
+        return Objects.hash(id, name, UIN, doctor);
     }
 }

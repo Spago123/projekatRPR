@@ -13,7 +13,7 @@ public class DoctorDaoSQLImpl implements DoctorDao{
 
     public DoctorDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("","","");
+            this.connection = DriverManager.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -29,7 +29,6 @@ public class DoctorDaoSQLImpl implements DoctorDao{
                 Doctor doctor = new Doctor();
                 doctor.setId(rs.getInt("id"));
                 doctor.setName(rs.getNString("name"));
-                doctor.setStartedWork(rs.getDate("startedWork"));
                 doctor.setDepartment(new DepartmentDaoSQLImpl().getById(rs.getInt("idDepartment")));
                 rs.close();
                 return doctor;
@@ -42,29 +41,16 @@ public class DoctorDaoSQLImpl implements DoctorDao{
         return null;
     }
 
-    private int getMaxId(){
-        int id=1;
-        try {
-            PreparedStatement statement = this.connection.prepareStatement("SELECT MAX(id)+1 FROM Doctors");
-            ResultSet rs = statement.executeQuery();
-            if(rs.next()) {
-                id = rs.getInt(1);
-                rs.close();
-                return id;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
-    }
-
     @Override
     public Doctor add(Doctor item) {
-        int id = getMaxId();
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO Doctors VALUES (id, item.getName(), item.getStartedWork(), item.getDepartment().getId)");
+            PreparedStatement stmt = this.connection.prepareStatement( "INSERT INTO Doctors(name, idDepartment) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, item.getName());
+            stmt.setInt(2, item.getDepartment().getId());
             stmt.executeUpdate();
-            item.setId(id);
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            item.setId(rs.getInt(1));
             return item;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,11 +61,10 @@ public class DoctorDaoSQLImpl implements DoctorDao{
     @Override
     public Doctor update(Doctor item) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Doctors SET name=?, startedWork=?, idDepartment=? WHERE id=?");
-            stmt.setInt(4,item.getId());
+            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Doctors SET name=?, idDepartment=? WHERE id=?");
+            stmt.setInt(3,item.getId());
             stmt.setString(1, item.getName());
-            stmt.setDate(2, (Date)item.getStartedWork());
-            stmt.setInt(3, item.getDepartment().getId());
+            stmt.setInt(2, item.getDepartment().getId());
             stmt.executeUpdate();
             return item;
         } catch (SQLException e) {
@@ -109,7 +94,6 @@ public class DoctorDaoSQLImpl implements DoctorDao{
                 Doctor doctor = new Doctor();
                 doctor.setId(rs.getInt("id"));
                 doctor.setName(rs.getString("name"));
-                doctor.setStartedWork(rs.getDate("startedWork"));
                 doctor.setDepartment(new DepartmentDaoSQLImpl().getById(rs.getInt("idDepartment")));
                 doctors.add(doctor);
             }
@@ -132,7 +116,6 @@ public class DoctorDaoSQLImpl implements DoctorDao{
                 Doctor doctor = new Doctor();
                 doctor.setId(rs.getInt("id"));
                 doctor.setName(rs.getString("name"));
-                doctor.setStartedWork(rs.getDate("startedWork"));
                 doctor.setDepartment(department);
                 doctors.add(doctor);
             }
