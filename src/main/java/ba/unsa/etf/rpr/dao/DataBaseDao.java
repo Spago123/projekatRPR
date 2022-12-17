@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DateBaseDao {
+public class DataBaseDao {
     private static Connection connection;
 
-    private DateBaseDao(){
+    private DataBaseDao(){
 
     }
 

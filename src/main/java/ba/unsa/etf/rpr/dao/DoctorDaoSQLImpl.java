@@ -13,7 +13,7 @@ public class DoctorDaoSQLImpl implements DoctorDao{
 
     public DoctorDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection();
+            this.connection = DataBaseDao.getInstance();
         } catch (SQLException e) {
             e.printStackTrace();
         }

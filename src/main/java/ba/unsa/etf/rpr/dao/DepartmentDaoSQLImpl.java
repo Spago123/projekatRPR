@@ -10,7 +10,7 @@ public class DepartmentDaoSQLImpl implements DepartmentDao{
     private Connection connection;
     public DepartmentDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("");
+            this.connection = DataBaseDao.getInstance();
         }catch(Exception e){
             e.printStackTrace();
         }

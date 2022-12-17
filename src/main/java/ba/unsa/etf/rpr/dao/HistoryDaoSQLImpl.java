@@ -15,7 +15,7 @@ public class HistoryDaoSQLImpl implements HistoryDao{
 
     public HistoryDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection();
+            this.connection = DataBaseDao.getInstance();
         } catch (SQLException e) {
             e.printStackTrace();
         }
