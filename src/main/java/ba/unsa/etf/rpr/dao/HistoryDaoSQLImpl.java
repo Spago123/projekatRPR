@@ -46,9 +46,9 @@ public class HistoryDaoSQLImpl implements HistoryDao{
     @Override
     public History add(History item) {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement( "INSERT INTO Histories(idDoctor, idPatient, diagnosis) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, item.getDoctor().getId());
-            stmt.setInt(2, item.getPatient().getId());
+            PreparedStatement stmt = this.connection.prepareStatement( "INSERT INTO Histories(idPatient, idDoctor, diagnosis) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, item.getPatient().getId());
+            stmt.setInt(2, item.getDoctor().getId());
             stmt.setString(3, item.getDiagnosis());
             stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
