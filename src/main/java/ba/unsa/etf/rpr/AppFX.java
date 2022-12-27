@@ -19,7 +19,7 @@ public class AppFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/patientHome.fxml"));
         //HomeController homeController = new HomeController();
         //fxmlLoader.setController(homeController);
         Parent root = fxmlLoader.load();
