@@ -1,0 +1,1 @@
+This project represents a simple student project, which goal was to implement an easier way of communication between hospital personal aka doctors, and users aka patients. This application is just a very simple representation of how this system should look like, and it can easily be improved ba adding additional features.
