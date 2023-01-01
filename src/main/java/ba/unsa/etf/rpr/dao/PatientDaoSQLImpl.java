@@ -2,130 +2,42 @@ package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Doctor;
 import ba.unsa.etf.rpr.domain.Patient;
+import ba.unsa.etf.rpr.exceptions.HospitalException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class PatientDaoSQLImpl implements PatientDao {
+public class PatientDaoSQLImpl extends AbstractDao<Patient> implements PatientDao {
 
-    private Connection connection;
-
-    public PatientDaoSQLImpl(){
-        try{
-            this.connection = DataBaseDao.getInstance();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    @Override
-    public Patient getById(int id) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Patients WHERE id=?");
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                Patient patient = new Patient();
-                patient.setId(rs.getInt("id"));
-                patient.setName(rs.getNString("name"));
-                patient.setUIN(rs.getInt("UIN"));
-                patient.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
-                rs.close();
-                return patient;
-            }else{
-                return null;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public PatientDaoSQLImpl() {
+        super("Patients");
     }
 
     @Override
-    public Patient add(Patient item) {
+    public Patient row2object(ResultSet rs) throws HospitalException {
         try{
-            PreparedStatement stmt = this.connection.prepareStatement( "INSERT INTO Patients(name, UIN, idDoctor) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, item.getName());
-            stmt.setInt(2, (int)item.getUIN());
-            stmt.setInt(3, item.getDoctor().getId());
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-            item.setId(rs.getInt(1));
-            return item;
+            return new Patient(rs.getInt("id"), rs.getString("name"),
+                    rs.getLong("UIN"), DaoFactory.doctorDao().getById(rs.getInt("idDoctor")));
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public Patient update(Patient item) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Patients SET name=?, UIN=?, idDoctors=? WHERE id=?");
-            stmt.setInt(4,item.getId());
-            stmt.setString(1, item.getName());
-            stmt.setInt(2, (int)item.getUIN());
-            stmt.setInt(3, item.getDoctor().getId());
-            stmt.executeUpdate();
-            return item;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public void delete(int id) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("DELETE from Patients WHERE id=?");
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            throw new HospitalException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Patient> getAll() {
-        List<Patient> patients = new ArrayList<Patient>();
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * from Patients");
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                Patient patient = new Patient();
-                patient.setId(rs.getInt("id"));
-                patient.setName(rs.getString("name"));
-                patient.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
-                patients.add(patient);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return patients;
+    public Map<String, Object> object2row(Patient object) {
+        Map<String, Object> row = new TreeMap<>();
+        row.put("id", object.getId());
+        row.put("name", object.getName());
+        row.put("UIN", object.getUIN());
+        row.put("idDoctor", object.getDoctor().getId());
+        return row;
     }
 
-    ///IMAS JOS OVO OVDJE
     @Override
-    public List<Patient> searchByDoctor(Doctor doctor) {
-        List<Patient> patients = new ArrayList<>();
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Patients WHERE idDoctor = ?");
-            stmt.setInt(1, doctor.getId());
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                Patient patient = new Patient();
-                patient.setId(rs.getInt("id"));
-                patient.setName(rs.getString("name"));
-                patient.setUIN(rs.getInt("UIN"));
-                patient.setDoctor(doctor);
-                patients.add(patient);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return patients;
+    public List<Patient> searchByDoctor(Doctor doctor) throws HospitalException {
+        return super.executeQuery("SELECT * FROM Patients WHERE idDoctor = ?", new Object[]{doctor.getId()});
     }
 }

@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Patient Java Bean
  */
-public class Patient {
+public class Patient implements Idable {
     private int id;
     private String name;
     private long UIN;
