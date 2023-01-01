@@ -15,7 +15,7 @@ public abstract class AbstractDao<Type extends Idable> implements Dao<Type> {
         try{
             this.tableName = tableName;
             Properties p = new Properties();
-            p.load(ClassLoader.getSystemResource("application.properties").openStream());
+            p.load(ClassLoader.getSystemResource("application.properties.sample").openStream());
             String url = p.getProperty("db.connection_string");
             String username = p.getProperty("db.username");
             String password = p.getProperty("db.password");

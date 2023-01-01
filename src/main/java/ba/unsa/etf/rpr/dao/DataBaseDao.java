@@ -13,7 +13,7 @@ public class DataBaseDao {
 
     public static Connection getInstance() throws SQLException {
         if(connection == null){
-            connection = DriverManager.getConnection("","","");
+            connection =DriverManager.getConnection("jdbc:mysql://sql.freedb.tech:3306/freedb_hospital_model","freedb_harun","e6zmV#ASfPv$Y&q");
         }
         return connection;
     }
