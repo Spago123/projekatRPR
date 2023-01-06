@@ -2,8 +2,10 @@ package ba.unsa.etf.rpr.controllers.components;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
+import javafx.scene.layout.HBox;
 
 public class OneButtonTableCell<T> extends TableCell<T, T> {
 
@@ -13,6 +15,15 @@ public class OneButtonTableCell<T> extends TableCell<T, T> {
         view.setOnAction(buttonOne);
     }
 
-
-
+    @Override
+    protected void updateItem(T o, boolean b) {
+        super.updateItem(o, b);
+        if (o != null) {
+            HBox box = new HBox();
+            box.setAlignment(Pos.CENTER);
+            view.setUserData(o);
+            box.getChildren().add(view);
+            setGraphic(box);
+        }
+    }
 }
