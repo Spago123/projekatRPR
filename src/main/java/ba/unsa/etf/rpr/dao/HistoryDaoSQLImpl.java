@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.dao;
 import ba.unsa.etf.rpr.domain.Doctor;
 import ba.unsa.etf.rpr.domain.History;
 import ba.unsa.etf.rpr.domain.Patient;
+import ba.unsa.etf.rpr.exceptions.HospitalException;
 
 import javax.swing.event.HyperlinkEvent;
 import java.sql.*;
@@ -37,7 +38,7 @@ public class HistoryDaoSQLImpl implements HistoryDao{
             }else{
                 return null;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | HospitalException e) {
             e.printStackTrace();
         }
         return null;
@@ -103,7 +104,7 @@ public class HistoryDaoSQLImpl implements HistoryDao{
                 histories.add(history);
             }
             rs.close();
-        } catch (SQLException e) {
+        } catch (SQLException | HospitalException e) {
             e.printStackTrace();
         }
         return histories;
@@ -147,7 +148,7 @@ public class HistoryDaoSQLImpl implements HistoryDao{
                 histories.add(history);
             }
             rs.close();
-        } catch (SQLException e) {
+        } catch (SQLException | HospitalException e) {
             e.printStackTrace();
         }
         return histories;

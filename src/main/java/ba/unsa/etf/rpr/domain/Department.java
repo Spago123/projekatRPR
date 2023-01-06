@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Department Java Bean
  */
-public class Department {
+public class Department implements Idable {
     private int id;
     private String name;
 

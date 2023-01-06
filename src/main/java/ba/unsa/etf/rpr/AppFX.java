@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr;
 
+import ba.unsa.etf.rpr.controllers.LoginController;
+import ba.unsa.etf.rpr.controllers.OpenNewWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,15 +34,7 @@ public class AppFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/patientHome.fxml"));
-        //HomeController homeController = new HomeController();
-        //fxmlLoader.setController(homeController);
-        Parent root = fxmlLoader.load();
-        Stage stage = null;
-        primaryStage.setTitle("Quote-maker");
-        primaryStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        new OpenNewWindow<LoginController>().openDialog("loginPage", "/fxml/newLogin.fxml", new LoginController(), null);
     }
 
     public static String getPageTitle(String key){

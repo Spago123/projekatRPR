@@ -6,7 +6,7 @@ public class DaoFactory {
     private static final HistoryDao historyDao = new HistoryDaoSQLImpl();
     private static final DepartmentDao departmentDao = new DepartmentDaoSQLImpl();
 
-    private DaoFactory(){
+    public DaoFactory(){
 
     }
 

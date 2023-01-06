@@ -37,7 +37,11 @@ public class PatientDaoSQLImpl extends AbstractDao<Patient> implements PatientDa
     }
 
     @Override
-    public List<Patient> searchByDoctor(Doctor doctor) throws HospitalException {
-        return super.executeQuery("SELECT * FROM Patients WHERE idDoctor = ?", new Object[]{doctor.getId()});
+    public List<Patient> searchByDoctor(Doctor doctor) {
+        try {
+            return super.executeQuery("SELECT * FROM Patients WHERE idDoctor = ?", new Object[]{doctor.getId()});
+        } catch (HospitalException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

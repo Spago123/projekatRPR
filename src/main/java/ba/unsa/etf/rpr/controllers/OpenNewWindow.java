@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr.controllers;
 
+import ba.unsa.etf.rpr.AppFX;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,18 +13,21 @@ import java.io.IOException;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
-public class OpenNewWindow {
-    public void openDialog(String title, String file, Object controller) {
+public class OpenNewWindow<Type> {
+    public void openDialog(String title, String file, Type controller, Stage previous) {
         try {
+            if(previous != null) {
+                previous.close();
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource(file));
-            //loader.setController(controller);
+            loader.setController(controller);
             Stage stage = new Stage();
             stage.setScene(new Scene((Parent) loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
-            stage.setTitle(title);
+            stage.setTitle(AppFX.getPageTitle(title));
             stage.initStyle(StageStyle.UTILITY);
             stage.show();
         } catch (Exception e){
-           // new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
         }
 
     }

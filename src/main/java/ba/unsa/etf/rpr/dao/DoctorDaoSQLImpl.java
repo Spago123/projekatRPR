@@ -2,6 +2,7 @@ package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Department;
 import ba.unsa.etf.rpr.domain.Doctor;
+import ba.unsa.etf.rpr.exceptions.HospitalException;
 
 import javax.print.Doc;
 import java.sql.*;
@@ -35,7 +36,7 @@ public class DoctorDaoSQLImpl implements DoctorDao{
             }else{
                 return null;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | HospitalException e) {
             e.printStackTrace();
         }
         return null;
@@ -98,7 +99,7 @@ public class DoctorDaoSQLImpl implements DoctorDao{
                 doctors.add(doctor);
             }
             rs.close();
-        } catch (SQLException e) {
+        } catch (SQLException | HospitalException e) {
             e.printStackTrace();
         }
         return doctors;

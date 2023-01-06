@@ -5,6 +5,8 @@ import ba.unsa.etf.rpr.domain.Department;
 import ba.unsa.etf.rpr.domain.Doctor;
 import ba.unsa.etf.rpr.domain.History;
 import ba.unsa.etf.rpr.domain.Patient;
+import ba.unsa.etf.rpr.exceptions.HospitalException;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 
 import java.sql.Date;
 
@@ -14,7 +16,7 @@ import java.sql.Date;
  */
 public class App 
 {
-    public static void main( String[] args ){
+    public static void main(String[] args ) throws HospitalException {
         Department department1 = new Department(1, "Onkologija");
         Department department2 = new Department(2, "Kardiologija");
 
