@@ -26,8 +26,8 @@ public class LoginController {
         System.out.println(username.getText());
         //patientHomeController.setName(username.getText());
         //System.out.println(patientHomeController.welcomeName.getText());
-        new OpenNewWindow().openDialog( AppFX.getPageTitle("patientHome"), "/fxml/patientHome.fxml", patientHomeController, (Stage) login.getScene().getWindow());
-        /*DoctorHomeController doctorHomeController = new DoctorHomeController();
-        new OpenNewWindow<DoctorHomeController>().openDialog("Doctor Page", "/fxml/doctorHome.fxml", doctorHomeController, (Stage) password.getScene().getWindow());*/
+        //new OpenNewWindow().openDialog( "patientHome", "/fxml/patientHome.fxml", patientHomeController, (Stage) login.getScene().getWindow());
+        DoctorHomeController doctorHomeController = new DoctorHomeController();
+        new OpenNewWindow<DoctorHomeController>().openDialog("doctorHome", "/fxml/doctorHome.fxml", doctorHomeController, (Stage) password.getScene().getWindow());
     }
 }

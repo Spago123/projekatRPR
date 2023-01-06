@@ -89,7 +89,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                        <TableView fx:id="myPatients" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                           <columns>
                             <TableColumn fx:id="patientName" prefWidth="135.99999696016312" text="Patient name" />
                             <TableColumn minWidth="0.0" prefWidth="0.0" text="C2" />
@@ -120,12 +120,11 @@
                         <RowConstraints maxHeight="331.7999900817871" minHeight="10.0" prefHeight="323.1999900817872" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TableView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                        <TableView fx:id="myDiagnosis" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                           <columns>
-                            <TableColumn fx:id="patientName" prefWidth="124.79998779296875" text="Patient name" />
-                            <TableColumn fx:id="patientUIN" prefWidth="243.20001220703125" text="UIN" />
-                              <TableColumn fx:id="diagnosis" prefWidth="130.4000244140625" text="Diagnosis" />
-                              <TableColumn fx:id="view" prefWidth="99.20001220703125" text="View" />
+                            <TableColumn fx:id="patientNameTab2" prefWidth="192.0" text="Patient name" />
+                              <TableColumn fx:id="diagnosisTab2" prefWidth="220.0" text="Diagnosis" />
+                              <TableColumn fx:id="viewTab2" prefWidth="188.0" text="View" />
                           </columns>
                         </TableView>
                      </children>

@@ -7,6 +7,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * Ovo radi samo jos povezivanje
+ * @param <Type>
+ */
+
 public class EditPasswordController<Type extends Passwordabel> {
 
     public TextField newPass;
@@ -19,9 +24,7 @@ public class EditPasswordController<Type extends Passwordabel> {
     }
 
     public void initialize(){
-        System.out.println("come");
-        prevPass.setText("heehhehe");
-
+        prevPass.setText(user.getPassword());
     }
 
     public void save(ActionEvent actionEvent) {

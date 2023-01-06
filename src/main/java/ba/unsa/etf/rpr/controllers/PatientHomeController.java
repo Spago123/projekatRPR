@@ -50,11 +50,11 @@ public class PatientHomeController {
 
     private void showHistoryScene(int historyId) {
         ViewHistoryController viewHistoryController = new ViewHistoryController();
-        new OpenNewWindow<>().openDialog(AppFX.getPageTitle("viewHistory"), "/fxml/viewHistory.fxml", viewHistoryController, (Stage) patientUIN.getScene().getWindow());
+        new OpenNewWindow<>().openDialog("viewHistory", "/fxml/viewHistory.fxml", viewHistoryController, (Stage) patientUIN.getScene().getWindow());
     }
 
     public void editPersonalInfo(ActionEvent actionEvent) {
         EditPasswordController editPasswordController = new EditPasswordController<Patient>(new Patient());
-        new OpenNewWindow<>().openDialog(AppFX.getPageTitle("editPass"), "/fxml/editPass.fxml", editPasswordController, (Stage) patientUIN.getScene().getWindow());
+        new OpenNewWindow<>().openDialog("editPass", "/fxml/editPass.fxml", editPasswordController, (Stage) patientUIN.getScene().getWindow());
     }
 }
