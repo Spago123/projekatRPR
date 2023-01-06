@@ -7,9 +7,19 @@ import java.util.Objects;
  * Doctor Java Bean
  */
 
-public class Doctor {
+public class Doctor implements Idable, Passwordabel{
     private int id;
     private String name;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     private Department department;
 
     public Doctor(){

@@ -7,7 +7,7 @@ import java.util.Objects;
  * History Java Bean
  */
 
-public class History {
+public class History implements Idable{
     private int id;
     private Patient patient;
     private Doctor doctor;

@@ -7,11 +7,23 @@ import java.util.Objects;
 /**
  * Patient Java Bean
  */
-public class Patient implements Idable {
+public class Patient implements Idable, Passwordabel {
     private int id;
     private String name;
+
+    private String password;
     private long UIN;
     private Doctor doctor;
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Patient(int id, String name, long UIN, Doctor doctor) {
         this.id = id;

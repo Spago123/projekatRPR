@@ -5,6 +5,7 @@ import ba.unsa.etf.rpr.bussines.DiagnosisManager;
 import ba.unsa.etf.rpr.controllers.components.OneButtonCellFactory;
 import ba.unsa.etf.rpr.controllers.components.OneButtonTableCell;
 import ba.unsa.etf.rpr.domain.History;
+import ba.unsa.etf.rpr.domain.Patient;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
@@ -53,5 +54,7 @@ public class PatientHomeController {
     }
 
     public void editPersonalInfo(ActionEvent actionEvent) {
+        EditPasswordController editPasswordController = new EditPasswordController<Patient>(new Patient());
+        new OpenNewWindow<>().openDialog(AppFX.getPageTitle("editPass"), "/fxml/editPass.fxml", editPasswordController, (Stage) patientUIN.getScene().getWindow());
     }
 }

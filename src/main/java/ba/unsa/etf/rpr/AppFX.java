@@ -25,7 +25,7 @@ public class AppFX extends Application {
         pageNames.put("loginPage", p.getProperty("loginPage"));
         pageNames.put("patientHome", p.getProperty("patientHome"));
         pageNames.put("doctorHome", p.getProperty("doctorHome"));
-        pageNames.put("editPatient", p.getProperty("editPatient"));
+        pageNames.put("editPass", p.getProperty("editPatient"));
         pageNames.put("addDiagnosis", p.getProperty("addDiagnosis"));
         pageNames.put("viewHistory", p.getProperty("viewHistory"));
 
