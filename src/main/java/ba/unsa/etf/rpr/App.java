@@ -17,10 +17,10 @@ import java.sql.Date;
 public class App 
 {
     public static void main(String[] args ) throws HospitalException {
-        Department department1 = new Department(1, "Onkologija");
+        /*Department department1 = new Department(1, "Onkologija");
         Department department2 = new Department(2, "Kardiologija");
 
-        Doctor doctor1 = new Doctor(1, "Huso Husic", department1);
+        Doctor doctor1 = new Doctor(1, "Huso Husic","",  department1);
         Doctor doctor2 = new Doctor(2, "Meho Mehic", department2);
         Doctor doctor3 = new Doctor(3, "Zulfo Zulfic", department1);
         Doctor doctor4 = new Doctor(4, "Kemo Kemic", department2);
@@ -42,6 +42,6 @@ public class App
 
         System.out.println(doctorDaoSQL.getAll());
         System.out.println(patientDaoSQL.getAll());
-        System.out.println(historyDaoSQL.getAll());
+        System.out.println(historyDaoSQL.getAll());*/
     }
 }

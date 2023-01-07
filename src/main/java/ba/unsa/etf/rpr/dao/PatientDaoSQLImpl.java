@@ -12,14 +12,26 @@ import java.util.TreeMap;
 
 public class PatientDaoSQLImpl extends AbstractDao<Patient> implements PatientDao {
 
-    public PatientDaoSQLImpl() {
+    private static PatientDaoSQLImpl instance = null;
+
+    private PatientDaoSQLImpl() {
         super("Patients");
     }
 
+    public static PatientDaoSQLImpl getInstance(){
+        if(instance == null)
+            instance = new PatientDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if(instance!=null)
+            instance = null;
+    }
     @Override
     public Patient row2object(ResultSet rs) throws HospitalException {
         try{
-            return new Patient(rs.getInt("id"), rs.getString("name"),
+            return new Patient(rs.getInt("id"), rs.getString("name"), rs.getString("password"),
                     rs.getLong("UIN"), DaoFactory.doctorDao().getById(rs.getInt("idDoctor")));
         } catch (SQLException e) {
             throw new HospitalException(e.getMessage(), e);
@@ -31,6 +43,7 @@ public class PatientDaoSQLImpl extends AbstractDao<Patient> implements PatientDa
         Map<String, Object> row = new TreeMap<>();
         row.put("id", object.getId());
         row.put("name", object.getName());
+        row.put("password", object.getPassword());
         row.put("UIN", object.getUIN());
         row.put("idDoctor", object.getDoctor().getId());
         return row;

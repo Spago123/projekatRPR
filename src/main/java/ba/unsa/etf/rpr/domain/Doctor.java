@@ -12,6 +12,8 @@ public class Doctor implements Idable, Passwordabel{
     private String name;
     private String password;
 
+    private Department department;
+
     public String getPassword() {
         return password;
     }
@@ -20,14 +22,14 @@ public class Doctor implements Idable, Passwordabel{
         this.password = password;
     }
 
-    private Department department;
 
     public Doctor(){
 
     }
-    public Doctor(int id, String name, Department department) {
+    public Doctor(int id, String name, String password, Department department) {
         this.id = id;
         this.name = name;
+        this.password = password;
         this.department = department;
     }
 

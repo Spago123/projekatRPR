@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Patient implements Idable, Passwordabel {
     private int id;
     private String name;
-
     private String password;
     private long UIN;
     private Doctor doctor;
@@ -25,9 +24,10 @@ public class Patient implements Idable, Passwordabel {
         this.password = password;
     }
 
-    public Patient(int id, String name, long UIN, Doctor doctor) {
+    public Patient(int id, String name, String password,long UIN, Doctor doctor) {
         this.id = id;
         this.name = name;
+        this.password = password;
         this.UIN = UIN;
         this.doctor = doctor;
     }

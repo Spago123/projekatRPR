@@ -21,6 +21,7 @@ public class AddPatientController {
     private PatientManager patientManager= new PatientManager();
     public TextField patientsName;
     public TextField patientsUIN;
+    public TextField patientsPassword;
     
     
     public Button add;
@@ -41,7 +42,7 @@ public class AddPatientController {
 
     @FXML
     private void addBtn(ActionEvent actionEvent) throws HospitalException {
-        patientManager.addPatient(new Patient(1, patientsName.getText(), Long.parseLong(patientsUIN.getText()), doctor));
+        patientManager.addPatient(new Patient(1, patientsName.getText(), patientsPassword.getText(),Long.parseLong(patientsUIN.getText()), doctor));
         new OpenNewWindow().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", new DoctorHomeController(doctor), (Stage) add.getScene().getWindow());
     }
 }
