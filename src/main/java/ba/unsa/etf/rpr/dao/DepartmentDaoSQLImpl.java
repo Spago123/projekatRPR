@@ -10,10 +10,22 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DepartmentDaoSQLImpl extends AbstractDao<Department> implements DepartmentDao{
-    public DepartmentDaoSQLImpl() {
+
+    private static DepartmentDaoSQLImpl instance = null;
+    private DepartmentDaoSQLImpl() {
         super("Departments");
     }
 
+    public static DepartmentDaoSQLImpl getInstance(){
+        if(instance == null)
+            instance = new DepartmentDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if(instance!=null)
+            instance = null;
+    }
     @Override
     public Department row2object(ResultSet rs) throws HospitalException {
         try{

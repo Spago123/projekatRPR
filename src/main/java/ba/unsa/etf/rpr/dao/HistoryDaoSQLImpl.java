@@ -9,171 +9,66 @@ import javax.swing.event.HyperlinkEvent;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class HistoryDaoSQLImpl implements HistoryDao{
+public class HistoryDaoSQLImpl extends AbstractDao<History> implements HistoryDao{
 
-    private Connection connection;
+    private static HistoryDaoSQLImpl instance = null;
+    private  HistoryDaoSQLImpl() {
+        super("Histories");
+    }
 
-    public HistoryDaoSQLImpl(){
+    public static HistoryDaoSQLImpl getInstance(){
+        if(instance == null)
+            instance = new HistoryDaoSQLImpl();
+        return instance;
+    }
+    @Override
+    public History row2object(ResultSet rs) throws HospitalException {
         try{
-            this.connection = DataBaseDao.getInstance();
+            return new History(rs.getInt("id"), DaoFactory.patientDao().getById(rs.getInt("idPatient")),
+                    DaoFactory.doctorDao().getById(rs.getInt("idDoctor")), rs.getString("diagnosis"));
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    @Override
-    public History getById(int id) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Histories WHERE id=?");
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                History history = new History();
-                history.setId(rs.getInt("id"));
-                history.setPatient(new PatientDaoSQLImpl().getById(rs.getInt("idPatient")));
-                history.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
-                history.setDiagnosis(rs.getString("diagnosis"));
-                rs.close();
-                return history;
-            }else{
-                return null;
-            }
-        } catch (SQLException | HospitalException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public History add(History item) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement( "INSERT INTO Histories(idPatient, idDoctor, diagnosis) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, item.getPatient().getId());
-            stmt.setInt(2, item.getDoctor().getId());
-            stmt.setString(3, item.getDiagnosis());
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-            item.setId(rs.getInt(1));
-            return item;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public History update(History item) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("UPDATE Histories SET idPatient=?, idDoctor=?, diagnosis=? WHERE id=?");
-            stmt.setInt(5,item.getId());
-            stmt.setInt(1, item.getPatient().getId());
-            stmt.setInt(2, item.getDoctor().getId());
-            stmt.setString(3, item.getDiagnosis());
-            stmt.executeUpdate();
-            return item;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public void delete(int id) {
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("DELETE from Histories WHERE id=?");
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            throw new HospitalException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<History> getAll() {
-        List<History> histories = new ArrayList<History>();
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Histories");
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                History history = new History();
-                history.setId(rs.getInt("id"));
-                history.setPatient(new PatientDaoSQLImpl().getById(rs.getInt("idPatient")));
-                history.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
-                history.setDiagnosis(rs.getString("diagnosis"));
-                histories.add(history);
-            }
-            rs.close();
-        } catch (SQLException | HospitalException e) {
-            e.printStackTrace();
-        }
-        return histories;
+    public Map<String, Object> object2row(History object) {
+        Map<String, Object> item = new TreeMap<>();
+        item.put("id", object.getId());
+        item.put("idPatient", object.getPatient().getId());
+        item.put("idDoctor", object.getDoctor().getId());
+        item.put("diagnosis", object.getDiagnosis());
+        return item;
     }
 
     @Override
     public List<History> searchByPatient(Patient patient) {
-        List<History> histories = new ArrayList<>();
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Histories WHERE idPatient = ?");
-            stmt.setInt(1, patient.getId());
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                History history = new History();
-                history.setPatient(patient);
-                history.setId(rs.getInt("id"));
-                history.setDoctor(new DoctorDaoSQLImpl().getById(rs.getInt("idDoctor")));
-                history.setDiagnosis(rs.getString("diagnosis"));
-                histories.add(history);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        try {
+            return super.executeQuery("SELECT * FROM Histories WHERE idPatient = ?", new Object[]{patient.getId()});
+        } catch (HospitalException e) {
+            throw new RuntimeException(e);
         }
-        return histories;
     }
 
     @Override
     public List<History> searchByDoctor(Doctor doctor) {
-        List<History> histories = new ArrayList<>();
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Histories WHERE idDoctor = ?");
-            stmt.setInt(1, doctor.getId());
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                History history = new History();
-                history.setDoctor(doctor);
-                history.setId(rs.getInt("id"));
-                history.setPatient(new PatientDaoSQLImpl().getById(rs.getInt("idPatient")));
-                history.setDiagnosis(rs.getString("diagnosis"));
-                histories.add(history);
-            }
-            rs.close();
-        } catch (SQLException | HospitalException e) {
-            e.printStackTrace();
+        try {
+            return super.executeQuery("SELECT * FROM Histories WHERE idDoctor = ?", new Object[]{doctor.getId()});
+        } catch (HospitalException e) {
+            throw new RuntimeException(e);
         }
-        return histories;
     }
 
     @Override
     public List<History> searchByDoctorAndPatient(Doctor doctor, Patient patient) {
-        List<History> histories = new ArrayList<>();
-        try{
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Histories WHERE idPatient = ? AND idDoctor = ?");
-            stmt.setInt(1, patient.getId());
-            stmt.setInt(2, doctor.getId());
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                History history = new History();
-                history.setPatient(patient);
-                history.setDoctor(doctor);
-                history.setId(rs.getInt("id"));
-                history.setDiagnosis(rs.getString("diagnosis"));
-                histories.add(history);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        try {
+            return super.executeQuery("SELECT * FROM Histories WHERE idDoctor = ? AND idPatient = ?",
+                    new Object[]{doctor.getId(), patient.getId()});
+        } catch (HospitalException e) {
+            throw new RuntimeException(e);
         }
-        return histories;
     }
 }
