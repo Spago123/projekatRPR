@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 
 public class AddPatientController {
 
+    private Doctor doctor;
+
     public Button exit;
     private PatientManager patientManager= new PatientManager();
     public TextField patientsName;
@@ -23,6 +25,10 @@ public class AddPatientController {
     
     public Button add;
 
+    public AddPatientController(Doctor doctor){
+        this.doctor = doctor;
+    }
+
     @FXML
     private void initialize(){
 
@@ -30,16 +36,12 @@ public class AddPatientController {
 
     @FXML
     private void exitBtn(ActionEvent actionEvent) {
-        new OpenNewWindow().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", new DoctorHomeController(), (Stage) add.getScene().getWindow());
-
+        new OpenNewWindow().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", new DoctorHomeController(doctor), (Stage) add.getScene().getWindow());
     }
 
     @FXML
     private void addBtn(ActionEvent actionEvent) throws HospitalException {
-        Department department = new Department(1, "Onkologija");
-        Doctor doctor = new Doctor(1, "Velid Velic", department);
         patientManager.addPatient(new Patient(1, patientsName.getText(), Long.parseLong(patientsUIN.getText()), doctor));
-        new OpenNewWindow().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", new DoctorHomeController(), (Stage) add.getScene().getWindow());
-
+        new OpenNewWindow().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", new DoctorHomeController(doctor), (Stage) add.getScene().getWindow());
     }
 }
