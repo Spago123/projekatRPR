@@ -108,5 +108,12 @@ public class DoctorHomeController {
     }
 
     public void addPatient(ActionEvent actionEvent){
+        AddPatientController addPatientController = new AddPatientController(doctor);
+        new OpenNewWindow<>().openDialog(AppFX.getPageTitle("addPatient"), "/fxml/addPatient.fxml", addPatientController, (Stage) myDiagnosis.getScene().getWindow());
+    }
+
+    public void edit(ActionEvent actionEvent) {
+        EditPasswordController<Doctor> editPasswordController = new EditPasswordController<>(doctor);
+        new OpenNewWindow<>().openDialog(AppFX.getPageTitle("editPass"), "/fxml/editPass.fxml", editPasswordController, (Stage) myDiagnosis.getScene().getWindow());
     }
 }

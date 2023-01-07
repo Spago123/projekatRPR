@@ -9,17 +9,25 @@ import java.util.List;
 
 public class PatientManager {
 
-    DaoFactory daoFactory = new DaoFactory();
+    //DaoFactory daoFactory = new DaoFactory();
 ;
     public List<Patient> getByDoctor(Doctor doctor) throws HospitalException {
-        return daoFactory.patientDao().searchByDoctor(doctor);
+        return DaoFactory.patientDao().searchByDoctor(doctor);
     }
 
     public List<Patient> getAll() throws HospitalException {
-        return daoFactory.patientDao().getAll();
+        return DaoFactory.patientDao().getAll();
     }
 
     public void addPatient(Patient patient) throws HospitalException {
-        daoFactory.patientDao().add(patient);
+        DaoFactory.patientDao().add(patient);
+    }
+
+    public void updatePatient(Patient patient) throws HospitalException {
+        DaoFactory.patientDao().update(patient);
+    }
+
+    public Patient getById(int id) throws HospitalException {
+        return DaoFactory.patientDao().getById(id);
     }
 }

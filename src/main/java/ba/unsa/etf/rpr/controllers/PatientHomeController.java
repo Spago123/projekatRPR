@@ -6,6 +6,7 @@ import ba.unsa.etf.rpr.controllers.components.OneButtonCellFactory;
 import ba.unsa.etf.rpr.controllers.components.OneButtonTableCell;
 import ba.unsa.etf.rpr.domain.History;
 import ba.unsa.etf.rpr.domain.Patient;
+import ba.unsa.etf.rpr.exceptions.HospitalException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
@@ -60,8 +61,12 @@ public class PatientHomeController {
     }
 
     private void showHistoryScene(int historyId) {
-        ViewHistoryController viewHistoryController = new ViewHistoryController();
-        new OpenNewWindow<>().openDialog("viewHistory", "/fxml/viewHistory.fxml", viewHistoryController, (Stage) patientUIN.getScene().getWindow());
+        try {
+            ViewHistoryController viewHistoryController = new ViewHistoryController(diagnosisManager.getById(historyId));
+            new OpenNewWindow<>().openDialog("viewHistory", "/fxml/viewHistory.fxml", viewHistoryController, (Stage) patientUIN.getScene().getWindow());
+        } catch (HospitalException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void editPersonalInfo(ActionEvent actionEvent) {
