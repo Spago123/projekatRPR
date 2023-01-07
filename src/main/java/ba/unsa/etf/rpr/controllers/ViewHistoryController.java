@@ -2,6 +2,7 @@ package ba.unsa.etf.rpr.controllers;
 
 import ba.unsa.etf.rpr.AppFX;
 import ba.unsa.etf.rpr.domain.History;
+import ba.unsa.etf.rpr.domain.Patient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,15 +13,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ViewHistoryController {
+
+    private History history;
     public TextField patientName;
     public TextField doctorName;
     public Button exit;
     public TextArea diagnosis;
-    private History history;
 
-    public ViewHistoryController(){
 
-    }
     public ViewHistoryController(History history){
         this.history = history;
     }
@@ -33,8 +33,7 @@ public class ViewHistoryController {
     }
 
     public void exitButton(ActionEvent actionEvent) throws IOException {
-        PatientHomeController patientHomeController = new PatientHomeController();
-        //patientHomeController.setName(history.getPatient().getName());
+        PatientHomeController patientHomeController = new PatientHomeController(history.getPatient());
         new OpenNewWindow().openDialog(AppFX.getPageTitle("patientHome"), "/fxml/patientHome.fxml", patientHomeController, (Stage) patientName.getScene().getWindow());
     }
 }
