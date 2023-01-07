@@ -5,7 +5,6 @@ import ba.unsa.etf.rpr.domain.Patient;
 import ba.unsa.etf.rpr.exceptions.HospitalException;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -53,6 +52,15 @@ public class PatientDaoSQLImpl extends AbstractDao<Patient> implements PatientDa
     public List<Patient> searchByDoctor(Doctor doctor) {
         try {
             return super.executeQuery("SELECT * FROM Patients WHERE idDoctor = ?", new Object[]{doctor.getId()});
+        } catch (HospitalException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Patient> searchByNameAndPass(String name, String pass) {
+        try {
+            return super.executeQuery("SELECT * FROM Patients WHERE name = ? AND password = ?", new Object[] {name, pass});
         } catch (HospitalException e) {
             throw new RuntimeException(e);
         }

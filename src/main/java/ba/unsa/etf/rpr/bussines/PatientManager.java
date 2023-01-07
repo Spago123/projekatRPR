@@ -30,4 +30,8 @@ public class PatientManager {
     public Patient getById(int id) throws HospitalException {
         return DaoFactory.patientDao().getById(id);
     }
+
+    public List<Patient> getByNameAndPass(String name, String pass){
+        return DaoFactory.patientDao().searchByNameAndPass(name, pass);
+    }
 }
