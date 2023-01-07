@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr.controllers;
 
+import ba.unsa.etf.rpr.AppFX;
+import ba.unsa.etf.rpr.bussines.DiagnosisManager;
 import ba.unsa.etf.rpr.bussines.PatientManager;
 import ba.unsa.etf.rpr.controllers.components.OneButtonCellFactory;
 import ba.unsa.etf.rpr.domain.Department;
@@ -12,10 +14,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import javax.print.Doc;
 
 public class DoctorHomeController {
+
+    private Doctor doctor;
 
     public Label doctorName;
     public TextField department;
@@ -35,10 +40,19 @@ public class DoctorHomeController {
     public TableColumn<History, String> diagnosisTab2;
     public TableColumn<History, Integer> viewTab2;
     private PatientManager patientManager = new PatientManager();
+    private DiagnosisManager diagnosisManager = new DiagnosisManager();
+
+    public DoctorHomeController(Doctor doctor){
+        this.doctor = doctor;
+    }
 
 
     @FXML
     private void initialize() throws HospitalException {
+
+        doctorName.setText(doctor.getName());
+        department.setText(doctor.getDepartment().getName());
+        password.setText(doctor.getPassword());
         
         patientName.setCellValueFactory(new PropertyValueFactory<>("name"));
         patientUIN.setCellValueFactory(new PropertyValueFactory<>("UIN"));
@@ -57,31 +71,42 @@ public class DoctorHomeController {
         
         viewTab2.setCellFactory(new OneButtonCellFactory(viewEvent -> {
             int historyId = Integer.parseInt(((Button)viewEvent.getSource()).getUserData().toString());
-            showHistroy(historyId);
+            showHistory(historyId);
         }));
         
         refreshDiagnosis();
     }
 
-    private void refreshDiagnosis() {
-    }
 
-    private void showHistroy(int historyId) {
+
+    private void showHistory(int historyId) {
+        try {
+            ViewHistoryController viewHistoryController = new ViewHistoryController(diagnosisManager.getById(historyId));
+            new OpenNewWindow<>().openDialog(AppFX.getPageTitle("viewHistory"), "/fxml/viewHistory.fxml", viewHistoryController, (Stage) myDiagnosis.getScene().getWindow());
+        } catch (HospitalException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addNewDiagnosis(int patientId) {
+        try {
+            AddDiagnosisController addDiagnosisController = new AddDiagnosisController(patientManager.getById(patientId), doctor);
+            new OpenNewWindow<>().openDialog(AppFX.getPageTitle("addDiagnosis"), "/fxml/addDiagnosis", addDiagnosisController, (Stage) myDiagnosis.getScene().getWindow());
+        } catch (HospitalException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void refreshPatients() throws HospitalException {
-
-        Department department1 = new Department(1, "Onkologija");
-        Department department2 = new Department(2, "Kardiologija");
-
-        Doctor doctor1 = new Doctor(1, "Huso Husic", department1);
-        myPatients.setItems(FXCollections.observableList(patientManager.getByDoctor(doctor1)));
+        myPatients.setItems(FXCollections.observableList(patientManager.getByDoctor(doctor)));
         myPatients.refresh();
     }
 
-    public void addPatient(ActionEvent actionEvent) {
+    private void refreshDiagnosis(){
+        myDiagnosis.setItems(FXCollections.observableList(diagnosisManager.getByDoctor(doctor)));
+        myDiagnosis.refresh();
+    }
+
+    public void addPatient(ActionEvent actionEvent){
     }
 }

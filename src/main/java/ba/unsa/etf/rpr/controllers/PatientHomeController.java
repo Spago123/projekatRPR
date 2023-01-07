@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 
 public class PatientHomeController {
 
+    private Patient patient;
+
     private DiagnosisManager diagnosisManager = new DiagnosisManager();
 
     public Tab personalInfo;
@@ -29,7 +31,16 @@ public class PatientHomeController {
     public TableColumn<History, String> diagnosis;
     public TableColumn<History, Integer> view;
 
+    public PatientHomeController(Patient patient){
+        this.patient = patient;
+    }
+
     public void initialize(){
+        welcomeName.setText(patient.getName());
+        patientUIN.setText(String.valueOf(patient.getUIN()));
+        patientDoctor.setText(patient.getDoctor().getName());
+
+
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         doctor.setCellValueFactory(new PropertyValueFactory<>("doctor"));
         diagnosis.setCellValueFactory(new PropertyValueFactory<>("diagnosis"));
@@ -44,7 +55,7 @@ public class PatientHomeController {
     }
 
     private void updateHistories() {
-        patientDiagnosisView.setItems(FXCollections.observableList(diagnosisManager.getAll()));
+        patientDiagnosisView.setItems(FXCollections.observableList(diagnosisManager.getByPatient(patient)));
         patientDiagnosisView.refresh();
     }
 
@@ -54,7 +65,7 @@ public class PatientHomeController {
     }
 
     public void editPersonalInfo(ActionEvent actionEvent) {
-        EditPasswordController editPasswordController = new EditPasswordController<Patient>(new Patient());
+        EditPasswordController editPasswordController = new EditPasswordController<Patient>(patient);
         new OpenNewWindow<>().openDialog("editPass", "/fxml/editPass.fxml", editPasswordController, (Stage) patientUIN.getScene().getWindow());
     }
 }
