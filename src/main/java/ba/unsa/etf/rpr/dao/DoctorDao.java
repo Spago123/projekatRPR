@@ -12,4 +12,6 @@ public interface DoctorDao extends Dao<Doctor>{
      * @return  list of doctors that belong to that department
      */
     List<Doctor> searchByDepartment(Department department);
+
+    List<Doctor> searchByNameAndPassword(String name, String password);
 }

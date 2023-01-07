@@ -57,4 +57,14 @@ public class DoctorDaoSQLImpl extends AbstractDao<Doctor> implements DoctorDao{
             throw new RuntimeException();
         }
     }
+
+    @Override
+    public List<Doctor> searchByNameAndPassword(String name, String password) {
+        try {
+            return super.executeQuery("SELECT * FROM Doctors WHERE name = ? AND password = ?",
+                    new Object[]{name, password});
+        } catch (HospitalException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
