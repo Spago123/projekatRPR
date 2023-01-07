@@ -1,10 +1,10 @@
 package ba.unsa.etf.rpr.dao;
 
 public class DaoFactory {
-    private static final PatientDao patientDao = new PatientDaoSQLImpl();
-    private static final DoctorDao doctorDao = new DoctorDaoSQLImpl();
-    private static final HistoryDao historyDao = new HistoryDaoSQLImpl();
-    private static final DepartmentDao departmentDao = new DepartmentDaoSQLImpl();
+    private static final PatientDao patientDao = PatientDaoSQLImpl.getInstance();
+    private static final DoctorDao doctorDao = DoctorDaoSQLImpl.getInstance();
+    private static final HistoryDao historyDao = HistoryDaoSQLImpl.getInstance();
+    private static final DepartmentDao departmentDao = DepartmentDaoSQLImpl.getInstance();
 
     public DaoFactory(){
 

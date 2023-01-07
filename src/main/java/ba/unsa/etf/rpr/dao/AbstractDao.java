@@ -8,31 +8,44 @@ import java.util.*;
 
 public abstract class AbstractDao<Type extends Idable> implements Dao<Type> {
 
-    private Connection connection;
+    private static Connection connection = null;
     private String tableName;
 
-    public AbstractDao(String tableName) {
-        try{
-            this.tableName = tableName;
-            Properties p = new Properties();
-            p.load(ClassLoader.getSystemResource("application.properties.sample").openStream());
-            String url = p.getProperty("db.connection_string");
-            String username = p.getProperty("db.username");
-            String password = p.getProperty("db.password");
-            this.connection = DriverManager.getConnection(url, username, password);
-        }catch (Exception e){
-            e.printStackTrace();
-            System.exit(0);
+    public AbstractDao(String tableName){
+        this.tableName = tableName;
+        createConnection();
+    }
+
+    private static void createConnection(){
+        if(AbstractDao.connection==null) {
+            try {
+                Properties p = new Properties();
+                p.load(ClassLoader.getSystemResource("application.properties.sample").openStream());
+                String url = p.getProperty("db.connection_string");
+                String username = p.getProperty("db.username");
+                String password = p.getProperty("db.password");
+                connection = DriverManager.getConnection(url, username, password);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                Runtime.getRuntime().addShutdownHook(new Thread(){
+                    @Override
+                    public void run(){
+                        try{
+                            connection.close();
+                        } catch (SQLException e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
         }
     }
 
     public Connection getConnection(){
-        return this.connection;
+        return AbstractDao.connection;
     }
 
-    public void setConnection(Connection connection){
-        this.connection = connection;
-    }
 
     /**
      * Method for mapping ResultSet into Object
