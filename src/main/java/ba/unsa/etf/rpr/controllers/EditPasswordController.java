@@ -42,6 +42,7 @@ public class EditPasswordController<Type extends Passwordabel> {
         } else if(ifPatient()) {
             patientManager.updatePatient((Patient) user);
         }
+        patientManager.updatePatient((Patient) user);
 
         closeWindow();
     }
@@ -51,20 +52,23 @@ public class EditPasswordController<Type extends Passwordabel> {
     }
 
     private void closeWindow(){
-        if(ifDoctor()){
-            DoctorHomeController doctorHomeController = new DoctorHomeController((Doctor)user);
-            new OpenNewWindow<>().openDialog(AppFX.getPageTitle("doctorPage"), "fxml/doctorHomePage.fxml", doctorHomeController, (Stage) newPass.getScene().getWindow());
-        } else if(ifPatient()){
+        //System.out.println("Naso ga");
+       if(ifPatient()){
+            //System.out.println("Uso");
             PatientHomeController patientHomeController = new PatientHomeController((Patient) user);
-            new OpenNewWindow<>().openDialog(AppFX.getPageTitle("patientHome"), "/fxml/patientHomePage-fxml", patientHomeController, (Stage) newPass.getScene().getWindow());
+            new OpenNewWindow<>().openDialog(AppFX.getPageTitle("patientHome"), "/fxml/patientHome.fxml", patientHomeController, (Stage) newPass.getScene().getWindow());
+        } else if(ifDoctor()){
+           //System.out.println("Uso");
+            DoctorHomeController doctorHomeController = new DoctorHomeController((Doctor) user);
+            new OpenNewWindow<>().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", doctorHomeController, (Stage) newPass.getScene().getWindow());
         }
     }
 
     private boolean ifPatient(){
-        return user.getClass().getName().equals("Patient");
+        return user.getClass().getName().equals("ba.unsa.etf.rpr.domain.Patient");
     }
     private boolean ifDoctor(){
-        return user.getClass().getName().equals("Doctor");
+        return user.getClass().getName().equals("ba.unsa.etf.rpr.domain.Doctor");
     }
 }
 
