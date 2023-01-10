@@ -1,7 +1,9 @@
 package ba.unsa.etf.rpr.controllers;
 
 import ba.unsa.etf.rpr.AppFX;
+import ba.unsa.etf.rpr.domain.Doctor;
 import ba.unsa.etf.rpr.domain.History;
+import ba.unsa.etf.rpr.domain.Passwordabel;
 import ba.unsa.etf.rpr.domain.Patient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +14,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ViewHistoryController {
+public class ViewHistoryController<Type extends Passwordabel> {
+
+    private Type user;
 
     private History history;
     public TextField patientName;
@@ -21,7 +25,8 @@ public class ViewHistoryController {
     public TextArea diagnosis;
 
 
-    public ViewHistoryController(History history){
+    public ViewHistoryController(History history, Type user){
+        this.user = user;
         this.history = history;
     }
 
@@ -33,7 +38,14 @@ public class ViewHistoryController {
     }
 
     public void exitButton(ActionEvent actionEvent) throws IOException {
-        PatientHomeController patientHomeController = new PatientHomeController(history.getPatient());
-        new OpenNewWindow().openDialog(AppFX.getPageTitle("patientHome"), "/fxml/patientHome.fxml", patientHomeController, (Stage) patientName.getScene().getWindow());
+        System.out.println("dao");
+        if(user.getClass().getName().equals("ba.unsa.etf.rpr.domain.Patient")) {
+            PatientHomeController patientHomeController = new PatientHomeController((Patient) user);
+            new OpenNewWindow().openDialog(AppFX.getPageTitle("patientHome"), "/fxml/patientHome.fxml", patientHomeController, (Stage) patientName.getScene().getWindow());
+        } else if(user.getClass().getName().equals("ba.unsa.etf.rpr.domain.Doctor")){
+            System.out.println("so");
+            DoctorHomeController doctorHomeController = new DoctorHomeController((Doctor) user);
+            new OpenNewWindow().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", doctorHomeController, (Stage) patientName.getScene().getWindow());
+        }
     }
 }

@@ -50,7 +50,7 @@ public class PatientHomeController {
         view.setCellFactory(new OneButtonCellFactory(viewEvent -> {
             int historyId = Integer.parseInt(((Button)viewEvent.getSource()).getUserData().toString());
             showHistoryScene(historyId);
-        }));
+        }, "View"));
 
         updateHistories();
     }
@@ -62,7 +62,7 @@ public class PatientHomeController {
 
     private void showHistoryScene(int historyId) {
         try {
-            ViewHistoryController viewHistoryController = new ViewHistoryController(diagnosisManager.getById(historyId));
+            ViewHistoryController viewHistoryController = new ViewHistoryController<Patient>(diagnosisManager.getById(historyId), patient);
             new OpenNewWindow<>().openDialog("viewHistory", "/fxml/viewHistory.fxml", viewHistoryController, (Stage) patientUIN.getScene().getWindow());
         } catch (HospitalException e) {
             throw new RuntimeException(e);
