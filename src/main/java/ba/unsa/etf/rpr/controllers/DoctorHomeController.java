@@ -61,7 +61,7 @@ public class DoctorHomeController {
         addNew.setCellFactory(new OneButtonCellFactory(addEvent -> {
             int patientId = Integer.parseInt(((Button)addEvent.getSource()).getUserData().toString());
             addNewDiagnosis(patientId);
-        }));
+        }, "Add New"));
 
         refreshPatients();
         
@@ -72,7 +72,7 @@ public class DoctorHomeController {
         viewTab2.setCellFactory(new OneButtonCellFactory(viewEvent -> {
             int historyId = Integer.parseInt(((Button)viewEvent.getSource()).getUserData().toString());
             showHistory(historyId);
-        }));
+        }, "View"));
         
         refreshDiagnosis();
     }
@@ -81,7 +81,7 @@ public class DoctorHomeController {
 
     private void showHistory(int historyId) {
         try {
-            ViewHistoryController viewHistoryController = new ViewHistoryController(diagnosisManager.getById(historyId));
+            ViewHistoryController viewHistoryController = new ViewHistoryController<Doctor>(diagnosisManager.getById(historyId), doctor);
             new OpenNewWindow<>().openDialog(AppFX.getPageTitle("viewHistory"), "/fxml/viewHistory.fxml", viewHistoryController, (Stage) myDiagnosis.getScene().getWindow());
         } catch (HospitalException e) {
             e.printStackTrace();

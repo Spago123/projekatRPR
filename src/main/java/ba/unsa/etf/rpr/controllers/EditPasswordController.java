@@ -43,7 +43,6 @@ public class EditPasswordController<Type extends Passwordabel> {
         } else if(ifPatient()) {
             patientManager.updatePatient((Patient) user);
         }
-        patientManager.updatePatient((Patient) user);
 
         closeWindow();
     }
