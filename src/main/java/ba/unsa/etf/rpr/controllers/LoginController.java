@@ -33,17 +33,18 @@ public class LoginController {
     @FXML
     private void login(ActionEvent actionEvent) throws IOException, HospitalException {
 
-        /*List<Patient> patient = (List<Patient>) patientManager.getByNameAndPass(username.getText(), password.getText());
+        List<Patient> patient = patientManager.getByNameAndPass(username.getText(), password.getText());
         if (patient.size() != 0) {
             PatientHomeController patientHomeController = new PatientHomeController(patient.get(0));
             new OpenNewWindow<>().openDialog(AppFX.getPageTitle("patientHome"), "/fxml/patientHome.fxml",
                     patientHomeController, (Stage) username.getScene().getWindow());
-        }*/
+            return;
+        }
 
-        //List<Doctor> doctors = doctorManager.getByNameAndPass(username.getText(), password.getText());
-        Doctor doctors = doctorManager.getById(4);
+
+        List<Doctor> doctors = doctorManager.getByNameAndPass(username.getText(), password.getText());
         if(doctors!=null){
-            DoctorHomeController doctorHomeController = new DoctorHomeController(doctors);
+            DoctorHomeController doctorHomeController = new DoctorHomeController(doctors.get(0));
             new OpenNewWindow<>().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", doctorHomeController, (Stage) username.getScene().getWindow());
         }
 

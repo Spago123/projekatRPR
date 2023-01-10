@@ -10,8 +10,8 @@ import javafx.scene.layout.HBox;
 public class OneButtonTableCell<T> extends TableCell<T, T> {
 
     private Button view;
-    public OneButtonTableCell(EventHandler<ActionEvent> buttonOne) {
-        view = new Button("View");
+    public OneButtonTableCell(EventHandler<ActionEvent> buttonOne, String name) {
+        view = new Button(name);
         view.setOnAction(buttonOne);
     }
 
