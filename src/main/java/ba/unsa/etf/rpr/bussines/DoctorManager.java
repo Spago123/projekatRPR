@@ -15,4 +15,8 @@ public class DoctorManager {
     public List<Doctor> getByNameAndPass(String name, String pass){
         return DaoFactory.doctorDao().searchByNameAndPassword(name, pass);
     }
+
+    public Doctor getById(int id) throws HospitalException {
+        return DaoFactory.doctorDao().getById(id);
+    }
 }

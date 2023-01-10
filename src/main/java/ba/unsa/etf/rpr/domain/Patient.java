@@ -70,12 +70,7 @@ public class Patient implements Idable, Passwordabel {
 
     @Override
     public String toString() {
-        return "Patient{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", UIN=" + UIN +
-                ", doctor=" + doctor +
-                '}';
+        return name;
     }
 
     @Override

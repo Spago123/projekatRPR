@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89c39086-bff4-4b4f-8fdf-a709ad11443a" name="Changes" comment="EditPasswordController finished" />
+    <list default="true" id="89c39086-bff4-4b4f-8fdf-a709ad11443a" name="Changes" comment="EditPasswordController finished">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/bussines/DoctorManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/bussines/DoctorManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/controllers/AddPatientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/controllers/AddPatientController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/controllers/DoctorHomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/controllers/DoctorHomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/controllers/EditPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/controllers/EditPasswordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ba/unsa/etf/rpr/controllers/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/addPatient.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/addPatient.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/doctorHome.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/doctorHome.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/addPatient.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/addPatient.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/doctorHome.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/doctorHome.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,13 +94,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1670231794638</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Edit Patient Info">
-      <created>1672146266881</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1672146266881</updated>
     </task>
     <task id="LOCAL-00014" summary="Edit Patient Info">
       <created>1672187205900</created>
@@ -427,7 +431,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673254899447</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="EditPasswordController finished">
+      <created>1673255277914</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1673255277914</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

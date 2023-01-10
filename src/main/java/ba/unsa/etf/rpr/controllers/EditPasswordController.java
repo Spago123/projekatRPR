@@ -32,6 +32,7 @@ public class EditPasswordController<Type extends Passwordabel> {
     }
 
     public void initialize(){
+        //prevPass.setText("tu sam");
         prevPass.setText(user.getPassword());
     }
 

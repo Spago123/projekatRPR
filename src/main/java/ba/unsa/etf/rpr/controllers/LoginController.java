@@ -5,6 +5,7 @@ import ba.unsa.etf.rpr.bussines.DoctorManager;
 import ba.unsa.etf.rpr.bussines.PatientManager;
 import ba.unsa.etf.rpr.domain.Doctor;
 import ba.unsa.etf.rpr.domain.Patient;
+import ba.unsa.etf.rpr.exceptions.HospitalException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -30,18 +31,19 @@ public class LoginController {
     }
 
     @FXML
-    private void login(ActionEvent actionEvent) throws IOException {
+    private void login(ActionEvent actionEvent) throws IOException, HospitalException {
 
-        List<Patient> patient = (List<Patient>) patientManager.getByNameAndPass(username.getText(), password.getText());
+        /*List<Patient> patient = (List<Patient>) patientManager.getByNameAndPass(username.getText(), password.getText());
         if (patient.size() != 0) {
             PatientHomeController patientHomeController = new PatientHomeController(patient.get(0));
             new OpenNewWindow<>().openDialog(AppFX.getPageTitle("patientHome"), "/fxml/patientHome.fxml",
                     patientHomeController, (Stage) username.getScene().getWindow());
-        }
+        }*/
 
-        List<Doctor> doctors = doctorManager.getByNameAndPass(username.getText(), password.getText());
-        if(doctors.size()!=0){
-            DoctorHomeController doctorHomeController = new DoctorHomeController(doctors.get(0));
+        //List<Doctor> doctors = doctorManager.getByNameAndPass(username.getText(), password.getText());
+        Doctor doctors = doctorManager.getById(4);
+        if(doctors!=null){
+            DoctorHomeController doctorHomeController = new DoctorHomeController(doctors);
             new OpenNewWindow<>().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", doctorHomeController, (Stage) username.getScene().getWindow());
         }
 
