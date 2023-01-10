@@ -56,9 +56,9 @@ public class DoctorHomeController {
         
         patientName.setCellValueFactory(new PropertyValueFactory<>("name"));
         patientUIN.setCellValueFactory(new PropertyValueFactory<>("UIN"));
-        patientUIN.setCellValueFactory(new PropertyValueFactory<>("id"));
+        addNew.setCellValueFactory(new PropertyValueFactory<>("id"));
         
-        patientUIN.setCellFactory(new OneButtonCellFactory(addEvent -> {
+        addNew.setCellFactory(new OneButtonCellFactory(addEvent -> {
             int patientId = Integer.parseInt(((Button)addEvent.getSource()).getUserData().toString());
             addNewDiagnosis(patientId);
         }));
@@ -91,7 +91,7 @@ public class DoctorHomeController {
     private void addNewDiagnosis(int patientId) {
         try {
             AddDiagnosisController addDiagnosisController = new AddDiagnosisController(patientManager.getById(patientId), doctor);
-            new OpenNewWindow<>().openDialog(AppFX.getPageTitle("addDiagnosis"), "/fxml/addDiagnosis", addDiagnosisController, (Stage) myDiagnosis.getScene().getWindow());
+            new OpenNewWindow<>().openDialog(AppFX.getPageTitle("addDiagnosis"), "/fxml/addDiagnosis.fxml", addDiagnosisController, (Stage) myDiagnosis.getScene().getWindow());
         } catch (HospitalException e) {
             throw new RuntimeException(e);
         }
@@ -109,11 +109,12 @@ public class DoctorHomeController {
 
     public void addPatient(ActionEvent actionEvent){
         AddPatientController addPatientController = new AddPatientController(doctor);
-        new OpenNewWindow<>().openDialog(AppFX.getPageTitle("addPatient"), "/fxml/addPatient.fxml", addPatientController, (Stage) myDiagnosis.getScene().getWindow());
+        new OpenNewWindow<>().openDialog("addPatient", "/fxml/addPatient.fxml", addPatientController, (Stage) myDiagnosis.getScene().getWindow());
     }
 
     public void edit(ActionEvent actionEvent) {
-        EditPasswordController<Doctor> editPasswordController = new EditPasswordController<>(doctor);
-        new OpenNewWindow<>().openDialog(AppFX.getPageTitle("editPass"), "/fxml/editPass.fxml", editPasswordController, (Stage) myDiagnosis.getScene().getWindow());
+        System.out.println("hje");
+        EditPasswordController editPasswordController = new EditPasswordController<Doctor>(doctor);
+        new OpenNewWindow<>().openDialog("editPass", "/fxml/editPass.fxml", editPasswordController, (Stage) myDiagnosis.getScene().getWindow());
     }
 }

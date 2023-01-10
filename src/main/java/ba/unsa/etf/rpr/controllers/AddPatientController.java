@@ -35,13 +35,11 @@ public class AddPatientController {
 
     }
 
-    @FXML
-    private void exitBtn(ActionEvent actionEvent) {
+    public void exitBtn(javafx.event.ActionEvent actionEvent) {
         new OpenNewWindow().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", new DoctorHomeController(doctor), (Stage) add.getScene().getWindow());
     }
 
-    @FXML
-    private void addBtn(ActionEvent actionEvent) throws HospitalException {
+    public void addBtn(javafx.event.ActionEvent actionEvent) throws HospitalException {
         patientManager.addPatient(new Patient(1, patientsName.getText(), patientsPassword.getText(),Long.parseLong(patientsUIN.getText()), doctor));
         new OpenNewWindow().openDialog(AppFX.getPageTitle("doctorHome"), "/fxml/doctorHome.fxml", new DoctorHomeController(doctor), (Stage) add.getScene().getWindow());
     }
